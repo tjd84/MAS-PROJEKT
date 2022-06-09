@@ -1,0 +1,20 @@
+a {
+    text-decoration: none !important;
+    color: #333333 !important;
+}
+
+.tjdGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    width: 100%;
+}
+
+.tjdDivContainer {
+    border: 1px solid #f3f4f6;
+    align-content: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
