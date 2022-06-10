@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
 @WebServlet(name = "praca", value = "/praca")
 public class PracaServlet extends HttpServlet {
@@ -46,14 +48,39 @@ public class PracaServlet extends HttpServlet {
         request.setAttribute("zadanieIdStr", zadanieIdStr);
 
         String error="";
+        //WALIDACJE
+        //1. Limit 24 h czasu pracy + poprwaność wpisanego czasu - czy daje się parsować na Integer
         try {
-            if (Integer.parseInt(request.getParameter("czasPracy")) > 24)
-                error += "Czas pracy nie może przekroczyć 24h. ";
+            if (Integer.parseInt(request.getParameter("czasPracy")) <= 0)
+                error += "Czas pracy powinien być dodatni. ";
         }
         catch (NumberFormatException ex){
             error += "Należy wprowadzić poprawny czas pracy w godzinach. ";
         }
+
+        //2. Poprawność wprowadzonej daty - czy daje się parsować na LocalDate
+        try {
+            LocalDate.parse(request.getParameter("dataWykonania"));
+        }
+        catch (DateTimeParseException e) {
+            error += "Należy wprowadzić datę w formacie rrrr-mm-dd. ";
+        }
+
+        //3. Czy pracownik został wskazany
         if(Integer.parseInt(request.getParameter("pracownik"))<0) error+="Należy wybrać pracownika. ";
+
+
+        try {
+            Praca p = new Praca(extent,
+                    request.getParameter("opisCzynnosci"),
+                    LocalDate.parse(request.getParameter("dataWykonania")),
+                    Integer.parseInt(request.getParameter("czasPracy")),
+                    extent.getOsobaExtent().get(Integer.parseInt(request.getParameter("pracownik"))).getPracownik(),
+                    extent.projektExtent.get(projectId).getZadania().get(zadanieId));
+        } catch (Exception e) {
+            error+=e.getMessage();
+        }
+
 
         if(error.length()>0){
             request.setAttribute("oldOpisCzynnosci", request.getParameter("opisCzynnosci"));
@@ -64,19 +91,9 @@ public class PracaServlet extends HttpServlet {
             request.getRequestDispatcher("/praca.jsp").forward(request, response);
         }
         else {
-            Praca p = new Praca(extent,
-                                request.getParameter("opisCzynnosci"),
-                                LocalDate.parse(request.getParameter("dataWykonania")),
-                                Integer.parseInt(request.getParameter("czasPracy")),
-                                extent.getOsobaExtent().get(Integer.parseInt(request.getParameter("pracownik"))).getPracownik(),
-                                extent.projektExtent.get(projectId).getZadania().get(zadanieId));
-
             ExtentFile.writeExtent(extent);
-
             response.sendRedirect("zadanie?projectId="+projectIdStr+"&zadanieId="+zadanieIdStr+"&dataStored=1");
         }
-
-
 
     }
 

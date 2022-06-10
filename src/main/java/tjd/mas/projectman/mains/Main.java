@@ -20,7 +20,7 @@ public class Main {
 
         Osoba o2 = new Osoba(extent, "Krzysztof", "Nowak", "tomasz.dzioch@gmail.com", "P@ssw0rd");
         o2.setRoleKoordynator(6000, 5);
-        o2.setRolePracownik(115, 12);
+        o2.setRolePracownik(115);
 
         Projekt p = new ProjektDlaKlienta(extent, "Projekt pokazowy", LocalDate.now(), 35000, 25000);
         p.setKoordynator(o1.getKoordynator());
@@ -31,9 +31,13 @@ public class Main {
         Projekt.Zadanie z2 = p.addZadanie("Sprzedać dom", LocalDate.of(2023,1,20));
         z2.setPracownik(o2.getPracownik());
 
-        Praca w1 = new Praca(extent, "Zakup cegieł", LocalDate.now(), 1, o2.getPracownik(), z1);
-        Praca w2 = new Praca(extent, "Transport cegieł", LocalDate.now(), 3, o2.getPracownik(), z1);
-        Praca w3 = new Praca(extent, "Rozładunek cegiał", LocalDate.now(), 1, o2.getPracownik(), z1);
+        try{
+            Praca w1 = new Praca(extent, "Zakup cegieł", LocalDate.now(), 1, o2.getPracownik(), z1);
+            Praca w2 = new Praca(extent, "Transport cegieł", LocalDate.now(), 3, o2.getPracownik(), z1);
+            Praca w3 = new Praca(extent, "Rozładunek cegiał", LocalDate.now(), 1, o2.getPracownik(), z1);
+        }
+        catch (Exception ex) {}
+
 
 
         //System.out.println(extent);

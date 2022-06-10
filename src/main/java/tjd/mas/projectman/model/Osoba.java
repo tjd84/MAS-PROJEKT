@@ -7,6 +7,7 @@ import tjd.mas.projectman.extent.ExtentFile;
 import tjd.mas.projectman.helpers.NextKey;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,8 +69,8 @@ public class Osoba implements Serializable {
         return koordynator;
     }
 
-    public void setRolePracownik(Integer stawkaGodzinowa, Integer limitDobowyCzasuPracy) {
-        Pracownik tmp = new Pracownik(stawkaGodzinowa, limitDobowyCzasuPracy);
+    public void setRolePracownik(Integer stawkaGodzinowa) {
+        Pracownik tmp = new Pracownik(stawkaGodzinowa);
         this.pracownik = tmp;
     }
     public void removeRolePracownik(){
@@ -168,15 +169,14 @@ public class Osoba implements Serializable {
     public class Pracownik implements Serializable{
         private static final long serialVersionUID = -5645895639291601484L;
         private Integer stawkaGodzinowa;
-        private Integer limitDobowyCzasuPracy;
+        private Integer limitDobowyCzasuPracy=12;
         @JsonManagedReference
         private Map<Integer, Projekt.Zadanie> zadania = new HashMap<>();
         @JsonManagedReference
         private Map<Integer, Praca> prace = new HashMap<>();
 
-        private Pracownik(Integer stawkaGodzinowa, Integer limitDobowyCzasuPracy){
+        private Pracownik(Integer stawkaGodzinowa){
             this.stawkaGodzinowa=stawkaGodzinowa;
-            this.limitDobowyCzasuPracy=limitDobowyCzasuPracy;
         }
 
         @JsonBackReference
@@ -193,11 +193,7 @@ public class Osoba implements Serializable {
         }
 
         public Integer getLimitDobowyCzasuPracy() {
-            return limitDobowyCzasuPracy;
-        }
-
-        public void setLimitDobowyCzasuPracy(Integer limitDobowyCzasuPracy) {
-            this.limitDobowyCzasuPracy = limitDobowyCzasuPracy;
+            return this.limitDobowyCzasuPracy;
         }
 
         public void addPraca(Praca praca) {
@@ -227,6 +223,16 @@ public class Osoba implements Serializable {
                 if(entry.getValue()==zadanie)
                     this.zadania.remove(entry.getKey());
             }
+        }
+
+        public Integer getTotalHoursByDate(LocalDate data){
+            Integer hours=0;
+            for(Map.Entry<Integer, Praca> tmp : this.prace.entrySet()){
+                if(tmp.getValue().getDataWykonania().equals(data)){
+                    hours+=tmp.getValue().getCzasPracy();
+                }
+            }
+            return hours;
         }
 
 
