@@ -69,6 +69,9 @@ public class PracaServlet extends HttpServlet {
         //3. Czy pracownik został wskazany
         if(Integer.parseInt(request.getParameter("pracownik"))<0) error+="Należy wybrać pracownika. ";
 
+        //3. Czy opis został wpisany
+        if(request.getParameter("opisCzynnosci").length()==0) error+="Należy uzupełnić opis. ";
+
 
         if(error.length()==0) {
             try {
