@@ -18,7 +18,7 @@ public class Main {
         Organizacja.Dzial d1 = org.addDzial("Bardzo ważny dział");
         Organizacja.Dzial d2 =  org.addDzial("Jeszcze ważniejszy dział");
 
-        Osoba o1 = new Osoba(extent, "Jan", "Kowalski", "jkowal@gmail.com", "P@ssw0rd");
+        Osoba o1 = new Osoba(extent, "Tomasz", "Dzioch", "tomasz.dzioch@gmail.com", "P@ssw0rd");
         o1.setRoleKoordynator(6000, 5);
         o1.setRoleManager(5000);
         o1.setDzial(d1);
