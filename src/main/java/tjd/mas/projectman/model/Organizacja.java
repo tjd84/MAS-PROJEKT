@@ -1,10 +1,12 @@
 package tjd.mas.projectman.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import tjd.mas.projectman.extent.Extent;
 import tjd.mas.projectman.helpers.NextKey;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +17,8 @@ public class Organizacja implements Serializable {
 
     private String nazwa;
     private String NIP;
-    private List<Organizacja.Adres> adresy = new ArrayList<>();
-    private List<Organizacja.Dzial> dzialy = new ArrayList<>();
+    private Map<Integer, Adres> adresy = new HashMap<>();
+    private Map<Integer, Dzial> dzialy = new HashMap<>();
     private List<ProjektWewnetrzny> projektyWewnetrzne = new ArrayList<>();
 
     public Organizacja(Extent extent, String nazwa, String NIP) {
@@ -41,6 +43,32 @@ public class Organizacja implements Serializable {
         this.NIP = NIP;
     }
 
+    public Dzial addDzial(String nazwa) {
+        Dzial tmp = new Dzial(nazwa);
+        dzialy.put(new NextKey<Organizacja.Dzial>().nextKey(dzialy), tmp);
+        return tmp;
+    }
+    public void removeDzial(Dzial dzial){
+        dzialy.remove(dzialy);
+    }
+    public Map<Integer, Dzial> getDzialy(){
+        return dzialy;
+    }
+
+
+    public Adres addAdres(String nazwa, String ulica, String numerBudynku, String numerLokalu, String kod, String miasto) {
+        Adres tmp = new Adres(nazwa, ulica, numerBudynku, numerLokalu, kod, miasto);
+        adresy.put(new NextKey<Organizacja.Adres>().nextKey(adresy), tmp);
+        return tmp;
+    }
+    public void removeDzial(Adres adres){
+        adresy.remove(adres);
+    }
+    public Map<Integer, Adres> getAdresy(){
+        return adresy;
+    }
+
+
     public class Adres implements Serializable {
         private static final long serialVersionUID = -7854232163294913302L;
         private String nazwa;
@@ -59,6 +87,7 @@ public class Organizacja implements Serializable {
             this.miasto = miasto;
         }
 
+        @JsonBackReference
         public Organizacja getOrganizacja(){
             return Organizacja.this;
         }
@@ -116,10 +145,7 @@ public class Organizacja implements Serializable {
         private static final long serialVersionUID = 3733178013949540214L;
 
         private String nazwa;
-
-        @JsonManagedReference
         private Map<Integer, ProjektWewnetrzny> projektyWewnetrzne = new HashMap<>();
-        @JsonManagedReference
         private Map<Integer, Osoba> osoby = new HashMap<>();
 
         public Dzial(String nazwa) {
@@ -134,8 +160,13 @@ public class Organizacja implements Serializable {
             this.nazwa = nazwa;
         }
 
+        @JsonBackReference
         public Organizacja getOrganizacja(){
             return Organizacja.this;
+        }
+
+        public Map<Integer, Osoba> getOsoba(){
+            return osoby;
         }
 
         public void addProjektWewnetrzny(ProjektWewnetrzny projektWewnetrzny){

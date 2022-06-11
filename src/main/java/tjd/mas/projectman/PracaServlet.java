@@ -70,15 +70,17 @@ public class PracaServlet extends HttpServlet {
         if(Integer.parseInt(request.getParameter("pracownik"))<0) error+="Należy wybrać pracownika. ";
 
 
-        try {
-            Praca p = new Praca(extent,
-                    request.getParameter("opisCzynnosci"),
-                    LocalDate.parse(request.getParameter("dataWykonania")),
-                    Integer.parseInt(request.getParameter("czasPracy")),
-                    extent.getOsobaExtent().get(Integer.parseInt(request.getParameter("pracownik"))).getPracownik(),
-                    extent.projektExtent.get(projectId).getZadania().get(zadanieId));
-        } catch (Exception e) {
-            error+=e.getMessage();
+        if(error.length()==0) {
+            try {
+                Praca p = new Praca(extent,
+                        request.getParameter("opisCzynnosci"),
+                        LocalDate.parse(request.getParameter("dataWykonania")),
+                        Integer.parseInt(request.getParameter("czasPracy")),
+                        extent.getOsobaExtent().get(Integer.parseInt(request.getParameter("pracownik"))).getPracownik(),
+                        extent.projektExtent.get(projectId).getZadania().get(zadanieId));
+            } catch (Exception e) {
+                error += e.getMessage();
+            }
         }
 
 

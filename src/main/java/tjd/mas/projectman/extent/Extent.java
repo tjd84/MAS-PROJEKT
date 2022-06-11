@@ -16,8 +16,8 @@ public class Extent implements Serializable {
     public Map<Integer, Osoba> osobaExtent = new HashMap<>();
     public Map<Integer, Praca> pracaExtent = new HashMap<>();
     public Map<Integer, Projekt> projektExtent = new HashMap<>();
-    public Map<Integer, ProjektDlaKlienta> projektDlaDklientaExtent = new HashMap<>();
-    public Map<Integer, ProjektWewnetrzny> projektWewnetrznyExtent = new HashMap<>();
+//    public Map<Integer, ProjektDlaKlienta> projektDlaDklientaExtent = new HashMap<>();
+//    public Map<Integer, ProjektWewnetrzny> projektWewnetrznyExtent = new HashMap<>();
 
 
     public void addToExtent(Organizacja object){
@@ -65,21 +65,21 @@ public class Extent implements Serializable {
         this.projektExtent = projektExtent;
     }
 
-    public Map<Integer, ProjektDlaKlienta> getProjektDlaDklientaExtent() {
-        return projektDlaDklientaExtent;
-    }
-
-    public void setProjektDlaDklientaExtent(Map<Integer, ProjektDlaKlienta> projektDlaDklientaExtent) {
-        this.projektDlaDklientaExtent = projektDlaDklientaExtent;
-    }
-
-    public Map<Integer, ProjektWewnetrzny> getProjektWewnetrznyExtent() {
-        return projektWewnetrznyExtent;
-    }
-
-    public void setProjektWewnetrznyExtent(Map<Integer, ProjektWewnetrzny> projektWewnetrznyExtent) {
-        this.projektWewnetrznyExtent = projektWewnetrznyExtent;
-    }
+//    public Map<Integer, ProjektDlaKlienta> getProjektDlaDklientaExtent() {
+//        return projektDlaDklientaExtent;
+//    }
+//
+//    public void setProjektDlaDklientaExtent(Map<Integer, ProjektDlaKlienta> projektDlaDklientaExtent) {
+//        this.projektDlaDklientaExtent = projektDlaDklientaExtent;
+//    }
+//
+//    public Map<Integer, ProjektWewnetrzny> getProjektWewnetrznyExtent() {
+//        return projektWewnetrznyExtent;
+//    }
+//
+//    public void setProjektWewnetrznyExtent(Map<Integer, ProjektWewnetrzny> projektWewnetrznyExtent) {
+//        this.projektWewnetrznyExtent = projektWewnetrznyExtent;
+//    }
 
     @Override
     public String toString() {

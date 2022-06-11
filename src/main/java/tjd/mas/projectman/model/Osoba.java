@@ -65,6 +65,7 @@ public class Osoba implements Serializable {
     public void removeRoleKoordynator(){
         this.koordynator=null;
     }
+    @JsonBackReference
     public Koordynator getKoordynator(){
         return koordynator;
     }
@@ -76,6 +77,7 @@ public class Osoba implements Serializable {
     public void removeRolePracownik(){
         this.pracownik=null;
     }
+    @JsonBackReference
     public Pracownik getPracownik(){
         return this.pracownik;
     }
@@ -87,6 +89,7 @@ public class Osoba implements Serializable {
     public void removeRoleManager(){
         this.manager=null;
     }
+    @JsonBackReference
     public Manager getManager(){
         return this.manager;
     }
@@ -109,7 +112,6 @@ public class Osoba implements Serializable {
         private static final long serialVersionUID = -1349384429251301582L;
         private Integer dodatkoweWynagrodzenie;
         private Integer maksymalnaLiczbaProjektow;
-        @JsonManagedReference
         private Map<Integer, Projekt> projekty = new HashMap();
 
         private Koordynator(Integer dodatkoweWynagrodzenie, Integer maksymalnaLiczbaProjektow){
@@ -133,7 +135,6 @@ public class Osoba implements Serializable {
             this.maksymalnaLiczbaProjektow = maksymalnaLiczbaProjektow;
         }
 
-        @JsonBackReference
         public Osoba getOsoba(){
             return Osoba.this;
         }
@@ -161,25 +162,25 @@ public class Osoba implements Serializable {
             this.dodatkoweWynagrodzenie=dodatkoweWynagrodzenie;
         }
 
-        @JsonBackReference
         public Osoba getOsoba(){
             return Osoba.this;
+        }
+
+        public Integer getDodatkoweWynagrodzenie() {
+            return dodatkoweWynagrodzenie;
         }
     }
     public class Pracownik implements Serializable{
         private static final long serialVersionUID = -5645895639291601484L;
         private Integer stawkaGodzinowa;
         private Integer limitDobowyCzasuPracy=12;
-        @JsonManagedReference
         private Map<Integer, Projekt.Zadanie> zadania = new HashMap<>();
-        @JsonManagedReference
         private Map<Integer, Praca> prace = new HashMap<>();
 
         private Pracownik(Integer stawkaGodzinowa){
             this.stawkaGodzinowa=stawkaGodzinowa;
         }
 
-        @JsonBackReference
         public Osoba getOsoba(){
             return Osoba.this;
         }
